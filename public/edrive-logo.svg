@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" fill="none">
+  <!-- eDrive wordmark -->
+  <text x="0" y="26" font-family="Inter, system-ui, sans-serif" font-weight="200" font-size="28" fill="white" letter-spacing="-0.5">e</text>
+  <text x="16" y="26" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="28" fill="white" letter-spacing="1">Drive</text>
+  <!-- Tiffany accent dot -->
+  <circle cx="155" cy="24" r="3" fill="#81D8D0"/>
+</svg>

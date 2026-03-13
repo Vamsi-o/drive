@@ -13,23 +13,23 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Drive to Survive",
-    template: "%s | Drive to Survive",
+    default: "eDrive JetCar",
+    template: "%s | eDrive JetCar",
   },
-  description: "Drive to Survive — Premium automotive experience. Configure your dream car with our state-of-the-art 3D configurator.",
-  authors: [{ name: "Vamsi" }],
+  description: "eDrive JetCar — Electric jet-powered watercraft. Configure, explore, and experience the future of luxury water mobility.",
+  authors: [{ name: "eDrive JetCar Manufacturing L.L.C." }],
   openGraph: {
-    title: "Drive to Survive",
-    description: "Drive to Survive — Premium automotive experience.",
+    title: "eDrive JetCar",
+    description: "eDrive JetCar — Electric jet-powered watercraft for luxury resorts and private owners.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drive to Survive",
-    description: "Drive to Survive — Premium automotive experience.",
+    title: "eDrive JetCar",
+    description: "eDrive JetCar — Electric jet-powered watercraft for luxury resorts and private owners.",
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/edrive-icon.svg",
   },
 };
 

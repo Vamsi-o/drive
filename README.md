@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# eDrive JetCar
+
+Official website for **eDrive JetCar Manufacturing L.L.C.** — electric jet-powered watercraft built for luxury resorts, private owners, and investors.
+
+**Live:** [drive-virid-eight.vercel.app](https://drive-virid-eight.vercel.app)
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 3
+- **Animation:** Framer Motion
+- **3D Configurator:** React Three Fiber + Drei
+- **i18n:** i18next (EN, AR, DE, ES, FR, EL, FIL, RU, ZH)
+- **Smooth Scroll:** Lenis
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/                    # Next.js App Router pages
+├── components/
+│   ├── configurator/       # 3D car configurator components
+│   ├── pages/              # Page-level components
+│   │   ├── company/        # Company sub-pages (profile, history, careers, etc.)
+│   │   └── business/       # Business pages (distributor, investors)
+│   ├── ui/                 # Reusable UI primitives (shadcn/ui)
+│   ├── NavBar.tsx          # Global navigation
+│   ├── HeroSectionV2.tsx   # Landing hero with video
+│   ├── ModelsSection.tsx   # Model showcase carousel
+│   ├── NewsSection.tsx     # News/events section
+│   ├── BlogsSection.tsx    # Blog articles section
+│   └── FooterSection.tsx   # Site footer
+├── data/                   # Configurator data & model specs
+├── hooks/                  # Custom React hooks
+├── i18n/                   # Translations (9 languages)
+└── lib/                    # Utilities
+public/
+├── assets/                 # Images, media
+│   ├── config/             # Configurator model images
+│   └── Team/               # Team member photos
+└── models/                 # 3D GLB models (git-ignored)
+```
 
-## Learn More
+## Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- **3D Configurator** — Interactive car builder with color, wheel, and accessory options
+- **Multi-language** — 9 languages including RTL Arabic support
+- **Smooth Transitions** — Page transitions and scroll animations via Framer Motion + Lenis
+- **Gallery** — Filterable image gallery with lightbox
+- **Responsive** — Mobile-first design across all pages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deployed on [Vercel](https://vercel.com). Pushes to `main` trigger automatic deployments.
 
-## Deploy on Vercel
+```bash
+npm run build   # Production build
+npm run start   # Start production server
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proprietary. All rights reserved by eDrive JetCar Manufacturing L.L.C.
