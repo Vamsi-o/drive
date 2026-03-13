@@ -41,7 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # large media / binary assets
-public/2FinalVerse_h264.mp4
 public/models/
 
 # reference docs

@@ -17,6 +17,7 @@ const HeroSectionV2 = () => {
         loop
         muted={true}
         playsInline
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover object-[25%_center] md:object-[30%_center] lg:object-left"
         style={{ transform: 'scaleX(-1)' }}
       />

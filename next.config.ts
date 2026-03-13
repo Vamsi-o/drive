@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Allow importing images from src/assets
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
   // Webpack config for Three.js GLTF/GLB support
   webpack: (config) => {

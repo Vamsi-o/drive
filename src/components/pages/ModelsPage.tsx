@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import NavBar from "@/components/NavBar";
 import FooterSection from "@/components/FooterSection";
-const modelRImg = "/assets/slide-model-r.png";
-const modelFImg = "/assets/slide-model-f.png";
+const modelRImg = "/assets/slide-model-r.jpg";
+const modelFImg = "/assets/slide-model-f.jpg";
 const luminaImg = "/assets/revuelto.jpg";
 const cyberImg = "/assets/temerario.jpg";
 

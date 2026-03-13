@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 const urusImg = "/assets/car-model-2.jpg";
 const huracanImg = "/assets/car-model-1.jpg";
-const modelFImg = "/assets/slide-model-f.png";
-const modelRImg = "/assets/slide-model-r.png";
+const modelFImg = "/assets/slide-model-f.jpg";
+const modelRImg = "/assets/slide-model-r.jpg";
 const models = [
   {
     name: "Model R",
@@ -125,6 +125,7 @@ const ModelsSection = () => {
                     src={current.logoImage}
                     alt={`${current.name} Logo`}
                     className="h-[60px] md:h-[80px] lg:h-[100px] object-contain"
+                    loading="lazy"
                   />
                 ) : (
                   <>
@@ -226,6 +227,7 @@ const ModelsSection = () => {
                     src={model.image}
                     alt={model.name}
                     className="w-full h-auto object-contain [clip-path:polygon(0_0,100%_0,100%_80%,0_80%)] translate-y-[10%]"
+                    loading="lazy"
                   />
                   {model.comingSoon && isCenter && (
                     <div className="absolute top-0 right-0 md:top-2 md:right-2 bg-black text-white text-[9px] font-bold tracking-[0.3em] uppercase px-3 py-1.5">
