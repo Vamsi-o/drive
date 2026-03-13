@@ -9,7 +9,7 @@ const HeroSectionV2 = () => {
   return (
     <section className="relative w-full h-screen bg-[#0B0B0B] overflow-hidden" style={{ minHeight: '600px' }}>
       
-      {/* Background Video - Flipped horizontally as per original design matrix(-1,0,0,1,0,0) */}
+      {/* Background Video */}
       <video
         key="hero-vid"
         src="/2FinalVerse_h264.mp4"
@@ -19,7 +19,6 @@ const HeroSectionV2 = () => {
         playsInline
         preload="metadata"
         className="absolute inset-0 w-full h-full object-cover object-[25%_center] md:object-[30%_center] lg:object-left"
-        style={{ transform: 'scaleX(-1)' }}
       />
 
       {/* Rectangle 345 - Left side blur overlay for text readability */}
@@ -44,7 +43,7 @@ const HeroSectionV2 = () => {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 1, delay: 0.3 }}
             className="text-white uppercase"
             style={{ 
               fontFamily: "'Playfair Display', serif", 
@@ -60,7 +59,7 @@ const HeroSectionV2 = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 1, delay: 0.8 }}
             className="flex flex-col text-white"
           >
             <span style={{ 
@@ -86,7 +85,7 @@ const HeroSectionV2 = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 1, delay: 1.4 }}
           className="pointer-events-auto"
           style={{ marginTop: 'clamp(24px, 3vw, 45px)' }}
         >
