@@ -62,7 +62,7 @@ const BlogsSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section id="blogs" className="bg-white py-20 md:py-28">
+    <section id="blogs" data-theme="light" className="bg-white py-20 md:py-28">
       {/* Section Header */}
       <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-16 md:mb-20">
         <motion.div
