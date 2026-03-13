@@ -49,12 +49,18 @@ const NavBar = () => {
         </button>
 
         {/* Center: Logo */}
-        <Link href="/" className="absolute left-1/2 -translate-x-1/2 pointer-events-auto flex items-center gap-0 transition-transform duration-500 hover:scale-105">
+        {/* <Link href="/" className="absolute left-1/2 -translate-x-1/2 pointer-events-auto flex items-center gap-0 transition-transform duration-500 hover:scale-105">
           <span className="text-white font-light text-xl md:text-2xl tracking-tight" style={{ fontFamily: 'var(--font-body)' }}>e</span>
           <span className="text-white font-bold text-xl md:text-2xl tracking-wide uppercase" style={{ fontFamily: 'var(--font-heading)' }}>Drive</span>
           <span className="w-1.5 h-1.5 rounded-full bg-tiffany ml-0.5 mb-auto mt-1.5" />
+        </Link> */}
+  <Link href="/" className="absolute left-1/2 -translate-x-1/2 pointer-events-auto">
+          <img 
+            src="/emotion-drive-logo.png" 
+            alt="EDrive" 
+            className="h-7 md:h-8 lg:h-10 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-transform duration-500 hover:scale-105" 
+          />
         </Link>
-
         {/* Right: Icons */}
         <div className="flex items-center gap-5 pointer-events-auto">
           <a href="https://wa.me/971553949955" target="_blank" rel="noopener noreferrer" className="text-foreground hover:opacity-60 transition-opacity">
