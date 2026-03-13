@@ -69,67 +69,72 @@ const Investors = () => {
           </motion.div>
         </section>
 
-        {/* BLOCK 3 — HOW IT WORKS (image right) */}
-        <section className="min-h-screen flex flex-col md:flex-row bg-black">
-          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative order-2 md:order-1">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('investors.howItWorks')}</h3>
-              <p className="text-lg font-light leading-relaxed text-white/80 mb-8">{t('investors.howItWorksText')}</p>
-              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8 mt-16">{t('investors.partnerLocations')}</h3>
-              <p className="text-lg font-light leading-relaxed text-white/80">{t('investors.partnerLocationsText')}</p>
-            </motion.div>
-          </div>
-          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto order-1 md:order-2">
-            <img src={revueltoImg} alt="Investment Detail" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" />
-          </div>
-        </section>
+        {/* BLOCK 3, 4, 5 — SPLIT SECTIONS */}
+        <section className="py-10 md:py-16 px-4 md:px-10 lg:px-16 bg-black space-y-5 md:space-y-6">
 
-        {/* BLOCK 4 — ASSET & REVENUE (tiffany, image right) */}
-        <section className="min-h-screen flex flex-col md:flex-row bg-tiffany text-black">
-          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <h3 className="text-sm tracking-[0.2em] text-black/60 uppercase mb-8 font-bold">{t('investors.assetBased')}</h3>
-              <p className="text-lg font-light leading-relaxed mb-12">{t('investors.assetBasedText')}</p>
-              <h3 className="text-sm tracking-[0.2em] text-black/60 uppercase mb-8 font-bold">{t('investors.revenueStructure')}</h3>
-              <p className="text-lg font-light leading-relaxed">{t('investors.revenueStructureText')}</p>
-            </motion.div>
-          </div>
-          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto overflow-hidden">
-            <img src={dealerBg} alt="eDrive Manufacturing" className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105" />
-          </div>
-        </section>
+          {/* HOW IT WORKS */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="border border-white/8 rounded-md overflow-hidden flex flex-col md:flex-row"
+          >
+            <div className="w-full md:w-1/2 flex items-center p-6 md:p-8 lg:p-10 order-2 md:order-1">
+              <div className="max-w-md">
+                <h3 className="text-[11px] tracking-[0.2em] text-white/40 uppercase mb-4">{t('investors.howItWorks')}</h3>
+                <p className="text-[14px] font-light leading-relaxed text-white/70 mb-5">{t('investors.howItWorksText')}</p>
+                <h3 className="text-[11px] tracking-[0.2em] text-white/40 uppercase mb-4 mt-6">{t('investors.partnerLocations')}</h3>
+                <p className="text-[14px] font-light leading-relaxed text-white/70">{t('investors.partnerLocationsText')}</p>
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 relative h-[220px] md:h-auto md:min-h-[320px] order-1 md:order-2">
+              <img src={revueltoImg} alt="Investment Detail" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" />
+            </div>
+          </motion.div>
 
-        {/* BLOCK 5 — ROLE & COOPERATION (image left) */}
-        <section className="min-h-screen flex flex-col md:flex-row bg-black">
-          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto">
-            <img src={carInterior} alt="eDrive Interior" className="absolute inset-0 w-full h-full object-cover opacity-80" />
-          </div>
-          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative">
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('investors.roleOfEdrive')}</h3>
-              <p className="text-lg font-light leading-relaxed text-white/80 mb-12">{t('investors.roleOfEdriveText')}</p>
-              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('investors.longTermCooperation')}</h3>
-              <p className="text-lg font-light leading-relaxed text-white/80">{t('investors.longTermCooperationText')}</p>
-            </motion.div>
-          </div>
+          {/* ASSET & REVENUE */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="border border-tiffany/20 rounded-md overflow-hidden flex flex-col md:flex-row bg-tiffany text-black"
+          >
+            <div className="w-full md:w-1/2 flex items-center p-6 md:p-8 lg:p-10">
+              <div className="max-w-md">
+                <h3 className="text-[11px] tracking-[0.2em] text-black/50 uppercase mb-4 font-bold">{t('investors.assetBased')}</h3>
+                <p className="text-[14px] font-light leading-relaxed mb-6">{t('investors.assetBasedText')}</p>
+                <h3 className="text-[11px] tracking-[0.2em] text-black/50 uppercase mb-4 font-bold">{t('investors.revenueStructure')}</h3>
+                <p className="text-[14px] font-light leading-relaxed">{t('investors.revenueStructureText')}</p>
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 relative h-[220px] md:h-auto md:min-h-[320px] overflow-hidden">
+              <img src={dealerBg} alt="eDrive Manufacturing" className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105" />
+            </div>
+          </motion.div>
+
+          {/* ROLE & COOPERATION */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="border border-white/8 rounded-md overflow-hidden flex flex-col md:flex-row"
+          >
+            <div className="w-full md:w-1/2 relative h-[220px] md:h-auto md:min-h-[320px]">
+              <img src={carInterior} alt="eDrive Interior" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+            </div>
+            <div className="w-full md:w-1/2 flex items-center p-6 md:p-8 lg:p-10">
+              <div className="max-w-md">
+                <h3 className="text-[11px] tracking-[0.2em] text-white/40 uppercase mb-4">{t('investors.roleOfEdrive')}</h3>
+                <p className="text-[14px] font-light leading-relaxed text-white/70 mb-6">{t('investors.roleOfEdriveText')}</p>
+                <h3 className="text-[11px] tracking-[0.2em] text-white/40 uppercase mb-4">{t('investors.longTermCooperation')}</h3>
+                <p className="text-[14px] font-light leading-relaxed text-white/70">{t('investors.longTermCooperationText')}</p>
+              </div>
+            </div>
+          </motion.div>
+
         </section>
 
         {/* BLOCK 6 — WHY INVEST (numbered list) */}

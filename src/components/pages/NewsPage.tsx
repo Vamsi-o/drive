@@ -18,6 +18,14 @@ const articles = [
   { slug: "corporate-sustainability", image: news2, category: "Corporate", date: "03.05.2026", title: "A commitment to innovation and sustainable luxury" },
   { slug: "interior-craftsmanship", image: news3, category: "After Sales", date: "02.28.2026", title: "The art of interior craftsmanship: Bespoke details" },
   { slug: "driving-academy", image: heroImg, category: "Arena", date: "02.20.2026", title: "Driving Academy 2026: Unleash your potential on track" },
+  { slug: "jetcar-v2-unveil", image: news2, category: "Corporate", date: "01.28.2026", title: "JetCar V2 officially unveiled with next-gen electric powertrain" },
+  { slug: "maldives-resort-partnership", image: news3, category: "Corporate", date: "01.10.2026", title: "eDrive partners with luxury Maldives resort for JetCar experiences" },
+  { slug: "monaco-yacht-show", image: heroImg, category: "Arena", date: "12.15.2025", title: "eDrive makes European debut at Monaco Yacht Show" },
+  { slug: "factory-expansion-uae", image: news1, category: "Corporate", date: "11.18.2025", title: "New manufacturing facility doubles production capacity in UAE" },
+  { slug: "electric-marine-innovation-award", image: news3, category: "Motorsport", date: "10.02.2025", title: "eDrive wins Electric Marine Innovation Award at global conference" },
+  { slug: "after-sales-program-launch", image: news2, category: "After Sales", date: "09.14.2025", title: "Premium after-sales program launched for JetCar owners worldwide" },
+  { slug: "sustainability-report-2025", image: news1, category: "Corporate", date: "08.22.2025", title: "2025 Sustainability Report: Road to carbon-neutral operations" },
+  { slug: "racing-sim-experience", image: heroImg, category: "Arena", date: "07.30.2025", title: "eDrive Arena introduces hyper-realistic racing simulator experience" },
 ];
 
 const NewsPage = () => {

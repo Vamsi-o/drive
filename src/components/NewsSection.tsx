@@ -42,27 +42,100 @@ const articles = [
     title: "What's Next for eDrive",
     description: "eDrive continues to expand internationally, with ongoing discussions and projects across multiple regions. Our focus remains on strategic partnerships, manufacturing scalability, and new premium destinations.",
   },
+  {
+    slug: "jetcar-v2-unveil",
+    image: news2,
+    tags: ["PRODUCT", "LAUNCH"],
+    date: "28 SEP 2025",
+    title: "JetCar V2 Officially Unveiled",
+    description: "eDrive revealed the second-generation JetCar featuring an upgraded electric powertrain, refined hull geometry, and a completely redesigned cockpit interior built for both performance and comfort.",
+  },
+  {
+    slug: "maldives-resort-partnership",
+    image: news3,
+    tags: ["PARTNERSHIP"],
+    date: "10 AUG 2025",
+    title: "eDrive Partners with Luxury Maldives Resort",
+    description: "eDrive has signed a strategic partnership with a five-star resort in the Maldives to offer JetCar experiences as part of their premium watersports program, marking the brand's entry into the Indian Ocean market.",
+  },
+  {
+    slug: "sustainability-report-2025",
+    image: news1,
+    tags: ["CORPORATE", "SUSTAINABILITY"],
+    date: "22 JUL 2025",
+    title: "2025 Sustainability Report Published",
+    description: "eDrive released its annual sustainability report outlining progress on zero-emission marine mobility, responsible manufacturing practices, and plans for carbon-neutral operations by 2028.",
+  },
+  {
+    slug: "monaco-yacht-show",
+    image: heroImg,
+    tags: ["EVENTS"],
+    date: "05 JUN 2025",
+    title: "eDrive Showcases at Monaco Yacht Show",
+    description: "The eDrive JetCar made its European debut at the prestigious Monaco Yacht Show, drawing attention from superyacht owners, charter operators, and marine technology investors.",
+  },
+  {
+    slug: "factory-expansion-uae",
+    image: news2,
+    tags: ["CORPORATE", "MANUFACTURING"],
+    date: "18 APR 2025",
+    title: "New Manufacturing Facility in UAE",
+    description: "eDrive announced the expansion of its manufacturing capabilities with a new state-of-the-art facility in the UAE, doubling production capacity to meet growing international demand.",
+  },
+  {
+    slug: "electric-marine-innovation-award",
+    image: news3,
+    tags: ["AWARDS"],
+    date: "02 MAR 2025",
+    title: "eDrive Wins Electric Marine Innovation Award",
+    description: "eDrive was recognized with the Electric Marine Innovation Award at the Global Marine Technology Conference for its pioneering work in electric jet-propulsion watercraft design.",
+  },
 ];
 
 const NewsSection = () => {
   const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const totalPages = articles.length - 1; // first article is featured
 
   const remainingArticles = articles.slice(1);
+
+  // Calculate how many "pages" based on how many cards overflow
+  const getCardMetrics = () => {
+    const el = scrollRef.current;
+    if (!el) return { cardWidth: 0, totalPages: 1 };
+    const firstCard = el.children[0] as HTMLElement | undefined;
+    if (!firstCard) return { cardWidth: 0, totalPages: 1 };
+    const gap = 32;
+    const cardWidth = firstCard.offsetWidth + gap;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    const totalPages = maxScroll <= 0 ? 1 : Math.ceil(maxScroll / cardWidth) + 1;
+    return { cardWidth, totalPages };
+  };
+
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
+    const updatePages = () => {
+      setTotalPages(getCardMetrics().totalPages);
+    };
+
     const handleScroll = () => {
-      const scrollLeft = el.scrollLeft;
-      const cardWidth = el.scrollWidth / remainingArticles.length;
-      const idx = Math.round(scrollLeft / cardWidth);
+      const { cardWidth } = getCardMetrics();
+      if (cardWidth === 0) return;
+      const idx = Math.round(el.scrollLeft / cardWidth);
       setActiveIndex(idx);
     };
+
+    updatePages();
+    window.addEventListener("resize", updatePages);
     el.addEventListener("scroll", handleScroll, { passive: true });
-    return () => el.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("resize", updatePages);
+      el.removeEventListener("scroll", handleScroll);
+    };
   }, [remainingArticles.length]);
 
   const featured = articles[0];
@@ -95,11 +168,6 @@ const NewsSection = () => {
         </Link>
       </div>
 
-      {/* Divider */}
-      <div className="px-8 md:px-16 mb-10">
-        <div className="w-full h-px bg-black/10" />
-      </div>
-
       {/* Featured Article - Large Image */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -109,7 +177,7 @@ const NewsSection = () => {
         className="px-8 md:px-16 mb-14"
       >
         <Link href={`/news/${featured.slug}`} className="block group">
-          <div className="relative w-full aspect-[16/8] md:aspect-[16/7] overflow-hidden">
+          <div className="relative w-full aspect-[16/9] md:aspect-[3/1] overflow-hidden">
             <img
               src={featured.image}
               alt={featured.title}
@@ -123,10 +191,8 @@ const NewsSection = () => {
       {/* Scrollable Cards Row */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto px-8 md:px-16 pb-4 snap-x snap-mandatory"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="flex gap-8 overflow-x-auto px-8 md:px-16 pb-4 snap-x snap-mandatory hide-scrollbar"
       >
-        <style jsx>{`div::-webkit-scrollbar { display: none; }`}</style>
         {remainingArticles.map((article, i) => (
           <motion.article
             key={article.slug}
@@ -134,7 +200,7 @@ const NewsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: i * 0.1 }}
-            className="flex-shrink-0 w-[85vw] sm:w-[45vw] md:w-[30vw] group cursor-pointer snap-start"
+            className="flex-shrink-0 w-[80vw] sm:w-[55vw] md:w-[42vw] lg:w-[38vw] group cursor-pointer snap-start"
           >
             <Link href={`/news/${article.slug}`}>
               <div className="aspect-[4/3] overflow-hidden mb-5">
@@ -170,23 +236,25 @@ const NewsSection = () => {
       </div>
 
       {/* Pagination Dots */}
-      <div className="flex items-center justify-center gap-3 mt-10">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button
-            key={i}
-            onClick={() => {
-              const el = scrollRef.current;
-              if (!el) return;
-              const cardWidth = el.scrollWidth / remainingArticles.length;
-              el.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
-            }}
-            className={`h-[2px] transition-all duration-300 ${
-              i === activeIndex ? 'w-10 bg-black' : 'w-8 bg-black/20'
-            }`}
-            aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
-      </div>
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-3 mt-10">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const el = scrollRef.current;
+                if (!el) return;
+                const { cardWidth } = getCardMetrics();
+                el.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
+              }}
+              className={`h-[2px] transition-all duration-300 ${
+                i === activeIndex ? 'w-10 bg-black' : 'w-8 bg-black/20'
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

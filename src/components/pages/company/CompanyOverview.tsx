@@ -59,49 +59,54 @@ const CompanyOverview = () => {
           </motion.div>
         </section>
 
-        {/* BLOCK 3 — WHAT WE DO */}
-        <section className="min-h-screen flex flex-col md:flex-row bg-black">
-          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative order-2 md:order-1">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('company.overview.whatWeDo')}</h3>
-              <div className="space-y-8 text-lg font-light leading-relaxed text-white/80">
-                <p>{t('company.overview.whatWeDoP1')}</p>
-                <p>{t('company.overview.whatWeDoP2')}</p>
-                <p>{t('company.overview.whatWeDoP3')}</p>
-              </div>
-            </motion.div>
-          </div>
-          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto order-1 md:order-2">
-            <img src={revueltoImg} alt="Detail" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" />
-          </div>
-        </section>
+        {/* BLOCK 3 & 4 — SPLIT SECTIONS */}
+        <section className="py-12 md:py-20 px-4 md:px-10 lg:px-16 bg-black space-y-6 md:space-y-8">
 
-        {/* BLOCK 4 — HOW WE OPERATE */}
-        <section className="min-h-screen flex flex-col md:flex-row bg-tiffany text-black">
-          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="max-w-xl"
-            >
-              <h3 className="text-sm tracking-[0.2em] text-black/60 uppercase mb-8 font-bold">{t('company.overview.howWeOperate')}</h3>
-              <div className="space-y-8 text-lg font-light leading-relaxed">
-                <p>{t('company.overview.howWeOperateP1')}</p>
-                <p>{t('company.overview.howWeOperateP2')}</p>
-              </div>
-            </motion.div>
+          {/* WHAT WE DO */}
+          <div className="border border-white/8 rounded-md overflow-hidden flex flex-col md:flex-row">
+            <div className="w-full md:w-1/2 flex items-center p-6 md:p-10 lg:p-14 order-2 md:order-1">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="max-w-lg"
+              >
+                <h3 className="text-xs tracking-[0.2em] text-white/40 uppercase mb-5">{t('company.overview.whatWeDo')}</h3>
+                <div className="space-y-5 text-[15px] font-light leading-relaxed text-white/70">
+                  <p>{t('company.overview.whatWeDoP1')}</p>
+                  <p>{t('company.overview.whatWeDoP2')}</p>
+                  <p>{t('company.overview.whatWeDoP3')}</p>
+                </div>
+              </motion.div>
+            </div>
+            <div className="w-full md:w-1/2 relative h-[280px] md:h-auto md:min-h-[400px] order-1 md:order-2">
+              <img src={revueltoImg} alt="Detail" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" />
+            </div>
           </div>
-          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto overflow-hidden">
-            <img src={dealerBg} alt="Factory detail" className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105" />
+
+          {/* HOW WE OPERATE */}
+          <div className="border border-tiffany/20 rounded-md overflow-hidden flex flex-col md:flex-row bg-tiffany text-black">
+            <div className="w-full md:w-1/2 flex items-center p-6 md:p-10 lg:p-14">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="max-w-lg"
+              >
+                <h3 className="text-xs tracking-[0.2em] text-black/50 uppercase mb-5 font-bold">{t('company.overview.howWeOperate')}</h3>
+                <div className="space-y-5 text-[15px] font-light leading-relaxed">
+                  <p>{t('company.overview.howWeOperateP1')}</p>
+                  <p>{t('company.overview.howWeOperateP2')}</p>
+                </div>
+              </motion.div>
+            </div>
+            <div className="w-full md:w-1/2 relative h-[280px] md:h-auto md:min-h-[400px] overflow-hidden">
+              <img src={dealerBg} alt="Factory detail" className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105" />
+            </div>
           </div>
+
         </section>
 
         {/* BLOCK 5 — WHERE WE OPERATE & BLOCK 6 */}
