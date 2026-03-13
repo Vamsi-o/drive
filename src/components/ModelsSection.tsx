@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 const urusImg = "/assets/car-model-2.jpg";
 const huracanImg = "/assets/car-model-1.jpg";
-const modelFImg = "/assets/slide-model-f.jpg";
-const modelRImg = "/assets/slide-model-r.jpg";
+const modelFImg = "/assets/slide-model-f.png";
+const modelRImg = "/assets/slide-model-r.png";
 const models = [
   {
     name: "Model R",

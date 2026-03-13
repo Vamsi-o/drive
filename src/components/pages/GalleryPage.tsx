@@ -7,10 +7,10 @@ import NavBar from "@/components/NavBar";
 import FooterSection from "@/components/FooterSection";
 import SmoothScroll from "@/components/SmoothScroll";
 
-const modelRShowroom = "/assets/config/modelR.jpg";
-const modelFShowroom = "/assets/config/modelF.jpg";
-const modelRImg = "/assets/slide-model-r.jpg";
-const modelFImg = "/assets/slide-model-f.jpg";
+const modelRShowroom = "/assets/config/modelR.webp";
+const modelFShowroom = "/assets/config/modelF.webp";
+const modelRImg = "/assets/slide-model-r.png";
+const modelFImg = "/assets/slide-model-f.png";
 const heroImg = "/assets/hero-headlight.jpg";
 const news1 = "/assets/news-1.jpg";
 const news2 = "/assets/news-2.jpg";

@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-const modelRImg = "/assets/model-r.jpg";
+const modelRImg = "/assets/model-r.webp";
 const luminaImg = "/assets/revuelto.jpg";
 const cyberImg = "/assets/temerario.jpg";
-const modelFImg = "/assets/slide-model-f.jpg";
+const modelFImg = "/assets/slide-model-f.png";
 const MODELS = [
   {
     id: 'MODEL R',

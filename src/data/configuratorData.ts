@@ -1,5 +1,5 @@
-const modelRImg = "/assets/model-r.jpg";
-const modelFImg = "/assets/slide-model-f.jpg";
+const modelRImg = "/assets/model-r.webp";
+const modelFImg = "/assets/slide-model-f.png";
 const luminaImg = "/assets/revuelto.jpg";
 const cyberImg = "/assets/temerario.jpg";
 
