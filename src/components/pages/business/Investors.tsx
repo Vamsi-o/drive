@@ -6,6 +6,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import NavBar from "@/components/NavBar";
 import FooterSection from "@/components/FooterSection";
 
+const heroImg = "/assets/hero-headlight.jpg";
+const dealerBg = "/assets/dealer-bg.jpg";
+const revueltoImg = "/assets/revuelto.jpg";
+const carInterior = "/assets/car-interior.jpg";
+
 const Investors = () => {
   const { t } = useTranslation();
   const [formState, setFormState] = useState({
@@ -18,110 +23,138 @@ const Investors = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate email submission to FMC.emotiondrive@gmail.com
     setSubmitted(true);
   };
-
-  const sections = [
-    {
-      title: t('investors.howItWorks'),
-      text: t('investors.howItWorksText')
-    },
-    {
-      title: t('investors.partnerLocations'),
-      text: t('investors.partnerLocationsText')
-    },
-    {
-      title: t('investors.assetBased'),
-      text: t('investors.assetBasedText')
-    },
-    {
-      title: t('investors.revenueStructure'),
-      text: t('investors.revenueStructureText')
-    },
-    {
-      title: t('investors.roleOfEdrive'),
-      text: t('investors.roleOfEdriveText')
-    },
-    {
-      title: t('investors.longTermCooperation'),
-      text: t('investors.longTermCooperationText')
-    },
-    {
-      title: t('investors.transparency'),
-      text: t('investors.transparencyText')
-    }
-  ];
 
   return (
     <>
       <NavBar />
-      <main className="bg-background text-foreground min-h-screen">
-        {/* HERO SECTION */}
-        <section className="pt-40 pb-20 px-8 text-center max-w-4xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl text-heading-xl mb-6"
-          >
-            {t('investors.title')}
-          </motion.h1>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl md:text-3xl font-body font-light mb-8"
-          >
-            {t('investors.subtitle')}
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-muted-foreground leading-relaxed text-base md:text-lg max-w-3xl mx-auto"
-          >
-            {t('investors.heroDescription')}
-          </motion.p>
-        </section>
+      <main className="bg-background text-foreground min-h-screen selection:bg-tiffany selection:text-black">
 
-        {/* DETAILS GRID */}
-        <section className="py-20 px-8 md:px-16 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
-            {sections.map((section, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="border-t border-white/10 pt-6"
-              >
-                <h3 className="text-xl font-bold font-body mb-4">{section.title}</h3>
-                <p className="text-muted-foreground leading-relaxed font-light text-sm md:text-base">
-                  {section.text}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+        {/* BLOCK 1 — HERO */}
+        <section className="relative h-screen flex flex-col justify-end overflow-hidden pb-32 px-8 md:px-16">
+          <img
+            src={heroImg}
+            alt="eDrive Investment Opportunity"
+            className="absolute inset-0 w-full h-full object-cover opacity-60 scale-105"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
 
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-32 text-center max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 max-w-4xl"
           >
-            <h3 className="text-2xl font-body mb-6">{t('investors.nextSteps')}</h3>
-            <p className="text-muted-foreground mb-8">
-              {t('investors.nextStepsText')}
-            </p>
+            <h1 className="text-4xl md:text-7xl font-bold tracking-tighter text-heading-xl mb-4">
+              {t('investors.title')}
+            </h1>
+            <h2 className="text-xl md:text-2xl font-light tracking-wide text-white/80">
+              {t('investors.subtitle')}
+            </h2>
+          </motion.div>
+        </section>
+
+        {/* BLOCK 2 — INTRO STATEMENT */}
+        <section className="py-40 px-8 text-center bg-black max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8 text-xl md:text-3xl font-light leading-snug"
+          >
+            <p>{t('investors.heroDescription')}</p>
+          </motion.div>
+        </section>
+
+        {/* BLOCK 3 — HOW IT WORKS (image right) */}
+        <section className="min-h-screen flex flex-col md:flex-row bg-black">
+          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative order-2 md:order-1">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="max-w-xl"
+            >
+              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('investors.howItWorks')}</h3>
+              <p className="text-lg font-light leading-relaxed text-white/80 mb-8">{t('investors.howItWorksText')}</p>
+              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8 mt-16">{t('investors.partnerLocations')}</h3>
+              <p className="text-lg font-light leading-relaxed text-white/80">{t('investors.partnerLocationsText')}</p>
+            </motion.div>
+          </div>
+          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto order-1 md:order-2">
+            <img src={revueltoImg} alt="Investment Detail" className="absolute inset-0 w-full h-full object-cover grayscale opacity-80" />
+          </div>
+        </section>
+
+        {/* BLOCK 4 — ASSET & REVENUE (tiffany, image right) */}
+        <section className="min-h-screen flex flex-col md:flex-row bg-tiffany text-black">
+          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="max-w-xl"
+            >
+              <h3 className="text-sm tracking-[0.2em] text-black/60 uppercase mb-8 font-bold">{t('investors.assetBased')}</h3>
+              <p className="text-lg font-light leading-relaxed mb-12">{t('investors.assetBasedText')}</p>
+              <h3 className="text-sm tracking-[0.2em] text-black/60 uppercase mb-8 font-bold">{t('investors.revenueStructure')}</h3>
+              <p className="text-lg font-light leading-relaxed">{t('investors.revenueStructureText')}</p>
+            </motion.div>
+          </div>
+          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto overflow-hidden">
+            <img src={dealerBg} alt="eDrive Manufacturing" className="absolute inset-0 w-full h-full object-cover opacity-90 scale-105" />
+          </div>
+        </section>
+
+        {/* BLOCK 5 — ROLE & COOPERATION (image left) */}
+        <section className="min-h-screen flex flex-col md:flex-row bg-black">
+          <div className="w-full md:w-1/2 relative h-[50vh] md:h-auto">
+            <img src={carInterior} alt="eDrive Interior" className="absolute inset-0 w-full h-full object-cover opacity-80" />
+          </div>
+          <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 relative">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="max-w-xl"
+            >
+              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('investors.roleOfEdrive')}</h3>
+              <p className="text-lg font-light leading-relaxed text-white/80 mb-12">{t('investors.roleOfEdriveText')}</p>
+              <h3 className="text-sm tracking-[0.2em] text-white/50 uppercase mb-8">{t('investors.longTermCooperation')}</h3>
+              <p className="text-lg font-light leading-relaxed text-white/80">{t('investors.longTermCooperationText')}</p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* BLOCK 6 — WHY INVEST (numbered list) */}
+        <section className="py-32 px-8 bg-tiffany text-black">
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-4xl font-bold mb-16 tracking-tight">{t('investors.transparency')}</h3>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-xl font-light leading-relaxed mb-16"
+            >
+              {t('investors.transparencyText')}
+            </motion.p>
+
+            <h3 className="text-3xl font-bold mb-12 tracking-tight">{t('investors.nextSteps')}</h3>
+            <p className="text-lg font-light leading-relaxed mb-12">{t('investors.nextStepsText')}</p>
             <button
               onClick={() => document.getElementById('invest-form')?.scrollIntoView({ behavior: 'smooth' })}
-              className="btn-filled-white px-12 py-4 text-sm"
+              className="bg-black text-white px-12 py-4 text-sm font-bold tracking-widest uppercase hover:bg-black/80 transition-colors"
             >
               {t('investors.becomeInvestor')}
             </button>
-          </motion.div>
+          </div>
         </section>
 
         {/* APPLICATION FORM */}

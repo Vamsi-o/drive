@@ -19,7 +19,7 @@ const FooterSection = () => {
           <a href="mailto:info@edrive-jetcar.com" className="text-[#C0BFBF] text-sm md:text-base hover:text-white transition-colors">
             Contact Us
           </a>
-          <Link href="/investors" className="text-[#C0BFBF] text-sm md:text-base hover:text-white transition-colors">
+          <Link href="/privacy-legal" className="text-[#C0BFBF] text-sm md:text-base hover:text-white transition-colors">
             Privacy & Legal
           </Link>
           <Link href="/company/careers" className="text-[#C0BFBF] text-sm md:text-base hover:text-white transition-colors">
