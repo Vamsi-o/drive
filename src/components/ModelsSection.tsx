@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -59,8 +59,72 @@ const ModelsSection = () => {
   const goPrev = () => setActive((prev) => (prev - 1 + count) % count);
   const goNext = () => setActive((prev) => (prev + 1) % count);
 
+  // Swipe / drag support — works across the entire section
+  const sectionRef = useRef<HTMLElement>(null);
+  const dragStartX = useRef<number>(0);
+  const dragStartY = useRef<number>(0);
+  const swiped = useRef(false);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    dragStartX.current = e.clientX;
+    dragStartY.current = e.clientY;
+    swiped.current = false;
+    // Capture pointer so we get pointerup even if finger/mouse leaves the element
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }, []);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (swiped.current) return;
+    const dx = e.clientX - dragStartX.current;
+    const dy = e.clientY - dragStartY.current;
+    // Only trigger if horizontal movement is dominant and exceeds threshold
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      swiped.current = true;
+      if (dx < 0) goNext();
+      else goPrev();
+    }
+  }, []);
+
+  const handlePointerUp = useCallback(() => {
+    swiped.current = false;
+  }, []);
+
+  // Auto-play: advance every 4s, pause on user interaction for 8s
+  const pauseUntil = useRef(0);     
+
+  const pauseAutoPlay = useCallback(() => {
+    pauseUntil.current = Date.now() + 8000;
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (Date.now() < pauseUntil.current) return;
+      setActive((prev) => (prev + 1) % count);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [count]);
+
+  // Wrap existing handlers to also pause auto-play
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    pauseAutoPlay();
+    handlePointerDown(e);
+  }, [handlePointerDown, pauseAutoPlay]);
+
+  const onArrowPrev = useCallback(() => { pauseAutoPlay(); goPrev(); }, [pauseAutoPlay]);
+  const onArrowNext = useCallback(() => { pauseAutoPlay(); goNext(); }, [pauseAutoPlay]);
+  const onDotClick = useCallback((i: number) => { pauseAutoPlay(); setActive(i); }, [pauseAutoPlay]);
+
   return (
-    <section id="models" data-theme="light" className="bg-[#FAFAFA] overflow-hidden scroll-mt-[70px]">
+    <section
+      id="models"
+      ref={sectionRef}
+      data-theme="light"
+      className="bg-[#FAFAFA] overflow-hidden scroll-mt-[70px] touch-pan-y select-none cursor-grab active:cursor-grabbing"
+      onPointerDown={onPointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+    >
       {/* Top accent line */}
       <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
 
@@ -94,7 +158,7 @@ const ModelsSection = () => {
         <div className="flex items-center justify-center mb-1 min-h-[60px] lg:min-h-[80px] px-8 md:px-16 gap-10 md:gap-80">
           {/* Left Arrow — Hexagonal outline */}
           <button
-            onClick={goPrev}
+            onClick={onArrowPrev}
             className="group flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/25 hover:bg-black/50 transition-all duration-300"
             aria-label="Previous model"
             style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
@@ -148,7 +212,7 @@ const ModelsSection = () => {
 
           {/* Right Arrow — Hexagonal outline */}
           <button
-            onClick={goNext}
+            onClick={onArrowNext}
             className="group flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/25 hover:bg-black/50 transition-all duration-300"
             aria-label="Next model"
             style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
@@ -221,7 +285,7 @@ const ModelsSection = () => {
                   animate={{ x, scale, opacity, zIndex }}
                   transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
                   className="absolute w-[65%] md:w-[55%] max-w-[700px] flex items-center justify-center cursor-pointer"
-                  onClick={() => !isCenter && setActive(index)}
+                  onClick={() => { if (!isCenter) { pauseAutoPlay(); setActive(index); } }}
                 >
                   <img
                     src={model.image}
@@ -269,7 +333,7 @@ const ModelsSection = () => {
           {models.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActive(i)}
+              onClick={() => onDotClick(i)}
               className={`transition-all duration-300 rounded-full ${
                 i === active
                   ? "w-8 h-2 bg-black"
