@@ -8,7 +8,7 @@ import FooterSection from "@/components/FooterSection";
 
 const heroImg = "/assets/hero-headlight.jpg";
 const dealerBg = "/assets/dealer-bg.jpg";
-const revueltoImg = "/assets/revuelto.jpg";
+const revueltoImg = "/assets/config/modelR.jpg";
 const carInterior = "/assets/car-interior.jpg";
 
 const Investors = () => {

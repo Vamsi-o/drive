@@ -8,11 +8,12 @@ const news1 = "/assets/news-1.jpg";
 const news2 = "/assets/news-2.jpg";
 const news3 = "/assets/news-3.jpg";
 const heroImg = "/assets/hero-headlight.jpg";
+const modelRImg = "/assets/config/modelR.jpg";
 
 const articles = [
   {
     slug: "updated-model-r",
-    image: heroImg,
+    image: modelRImg,
     category: "Product",
     date: "05 JAN 2026",
     titleParts: [
@@ -58,13 +59,25 @@ const articles = [
   },
 ];
 
+const Title = ({ parts }: { parts: typeof articles[0]['titleParts'] }) => (
+  <>
+    {parts.map((part, j) => (
+      <span key={j} className={part.highlight ? 'text-tiffany' : 'text-black'}>
+        {part.text}
+      </span>
+    ))}
+  </>
+);
+
 const BlogsSection = () => {
   const { t } = useTranslation();
+  const featured = articles[0];
+  const rest = articles.slice(1);
 
   return (
-    <section id="blogs" data-theme="light" className="bg-white py-20 md:py-28">
+    <section id="blogs" data-theme="light" className="bg-white py-16 md:py-20">
       {/* Section Header */}
-      <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-16 md:mb-20">
+      <div className="max-w-[1440px] mx-auto px-8 md:px-16 mb-10 md:mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -87,69 +100,87 @@ const BlogsSection = () => {
         </motion.div>
       </div>
 
-      {/* Alternating Rows */}
-      <div className="max-w-[1440px] mx-auto px-8 md:px-16 space-y-16 md:space-y-24">
-        {articles.map((article, i) => {
-          const isReversed = i % 2 !== 0;
-          return (
-            <motion.article
-              key={article.slug}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 md:gap-12 lg:gap-16 items-center`}>
-                {/* Image */}
-                <div className="w-full md:w-1/2">
-                  <Link href={`/blogs/${article.slug}`} className="block overflow-hidden group">
+      {/* Grid: Featured + Side list */}
+      <div className="max-w-[1440px] mx-auto px-8 md:px-16">
+        <div className="flex flex-col lg:flex-row gap-8">
+
+          {/* Featured Article */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:w-[55%]"
+          >
+            <Link href={`/blogs/${featured.slug}`} className="block group">
+              <div className="overflow-hidden mb-4">
+                <img
+                  src={featured.image}
+                  alt={featured.titleParts.map(p => p.text).join('')}
+                  className="w-full aspect-[3/2] object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-[10px] tracking-[0.2em] uppercase text-black/40 font-bold">
+                  {featured.category}
+                </span>
+                <span className="text-[10px] text-black/20">|</span>
+                <span className="text-[10px] text-black/40 font-body">
+                  {featured.date}
+                </span>
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold leading-tight mb-3 group-hover:opacity-70 transition-opacity" style={{ fontFamily: 'var(--font-heading)' }}>
+                <Title parts={featured.titleParts} />
+              </h3>
+              <p className="text-black/50 font-body text-sm leading-relaxed line-clamp-3">
+                {featured.description}
+              </p>
+            </Link>
+          </motion.div>
+
+          {/* Side Articles */}
+          <div className="lg:w-[45%] flex flex-col divide-y divide-black/8">
+            {rest.map((article, i) => (
+              <motion.article
+                key={article.slug}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className={`${i === 0 ? 'pb-5' : 'py-5'} group`}
+              >
+                <Link href={`/blogs/${article.slug}`} className="flex gap-5">
+                  <div className="flex-shrink-0 w-[140px] md:w-[160px] overflow-hidden">
                     <img
                       src={article.image}
                       alt={article.titleParts.map(p => p.text).join('')}
-                      className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
-                  </Link>
-                </div>
-
-                {/* Text Content */}
-                <div className="w-full md:w-1/2">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-[10px] tracking-[0.2em] uppercase text-black/40 font-bold">
-                      {article.category}
-                    </span>
-                    <span className="text-[10px] text-black/30">•</span>
-                    <span className="text-[10px] text-black/40 font-body">
-                      {article.date}
-                    </span>
                   </div>
-
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-4" style={{ fontFamily: 'var(--font-heading)' }}>
-                    {article.titleParts.map((part, j) => (
-                      <span key={j} className={part.highlight ? 'text-tiffany' : 'text-black'}>
-                        {part.text}
+                  <div className="flex flex-col justify-center min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-[9px] tracking-[0.15em] uppercase text-black/40 font-bold">
+                        {article.category}
                       </span>
-                    ))}
-                  </h3>
-
-                  <p className="text-black/60 font-body text-sm md:text-base leading-relaxed mb-6">
-                    {article.description}
-                  </p>
-
-                  <Link
-                    href={`/blogs/${article.slug}`}
-                    className="inline-flex items-center gap-2 bg-tiffany text-black px-6 py-3 text-sm font-bold uppercase tracking-wider hover:bg-tiffany/80 transition-colors"
-                  >
-                    Learn more
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeWidth={2} d="M5 12h14m-6-6l6 6-6 6" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-            </motion.article>
-          );
-        })}
+                      <span className="text-[9px] text-black/20">|</span>
+                      <span className="text-[9px] text-black/40 font-body">
+                        {article.date}
+                      </span>
+                    </div>
+                    <h4 className="text-sm md:text-[15px] font-bold leading-snug mb-1.5 group-hover:opacity-60 transition-opacity" style={{ fontFamily: 'var(--font-heading)' }}>
+                      <Title parts={article.titleParts} />
+                    </h4>
+                    <p className="text-black/40 font-body text-xs leading-relaxed line-clamp-2 hidden sm:block">
+                      {article.description}
+                    </p>
+                  </div>
+                </Link>
+              </motion.article>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
