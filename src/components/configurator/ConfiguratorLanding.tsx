@@ -92,116 +92,120 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
       {/* Main Content Area */}
       <div className="flex-1 relative flex flex-col justify-between overflow-hidden">
 
-        {/* MODEL Letter */}
-        <div className="absolute left-6 lg:left-[8%] top-4 lg:top-[6%] z-20">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={model.id}
-              initial={{ opacity: 0, x: direction * 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction * -30 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <span className="font-configurator text-[11px] sm:text-[13px] lg:text-[15px] tracking-[0.35em] font-light text-white/40 block">
-                MODEL
-              </span>
-              <span
-                className="font-serif italic font-bold text-[70px] sm:text-[100px] lg:text-[150px] leading-[0.78] tracking-[-0.02em] block"
-                style={{ color: model.activeColor }}
+        {/* Mobile: stacked layout for text + image */}
+        <div className="flex flex-col lg:block flex-1">
+
+          {/* MODEL Letter + Description: flow on mobile, absolute on lg */}
+          <div className="px-6 pt-4 lg:px-0 lg:pt-0 lg:absolute lg:left-[8%] lg:top-[6%] z-20">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={model.id}
+                initial={{ opacity: 0, x: direction * 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction * -30 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               >
-                {model.letter}
-              </span>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+                <span className="font-configurator text-[11px] sm:text-[13px] lg:text-[15px] tracking-[0.35em] font-light text-white/40 block">
+                  MODEL
+                </span>
+                <span
+                  className="font-serif italic font-bold text-[60px] sm:text-[80px] lg:text-[150px] leading-[0.78] tracking-[-0.02em] block"
+                  style={{ color: model.activeColor }}
+                >
+                  {model.letter}
+                </span>
+              </motion.div>
+            </AnimatePresence>
 
-        {/* Model selector dots */}
-        <div className="absolute left-4 lg:left-[4%] top-1/2 -translate-y-1/2 z-20 flex flex-col gap-2.5">
-          {CONFIGURATOR_MODELS.map((m, i) => (
-            <button
-              key={m.id}
-              onClick={() => goToModel(i)}
-              className={`rounded-full transition-all duration-300 ${
-                selectedModelIndex === i
-                  ? 'w-2.5 h-2.5 scale-100'
-                  : 'w-2 h-2 opacity-40 hover:opacity-70'
-              }`}
-              style={{
-                backgroundColor: selectedModelIndex === i ? m.activeColor : '#fff',
-              }}
-              title={m.name}
-              aria-label={`Select ${m.name}`}
-            />
-          ))}
-        </div>
-
-        {/* Model description */}
-        <div className="absolute left-6 lg:left-[8%] top-[38%] lg:top-[40%] z-20 max-w-[280px]">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={model.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, delay: 0.15 }}
-              className="font-configurator font-light text-[13px] lg:text-[15px] leading-relaxed text-white/35"
-            >
-              {model.desc}
-            </motion.p>
-          </AnimatePresence>
-        </div>
-
-        {/* Coming Soon badge */}
-        {model.comingSoon && (
-          <div className="absolute right-6 lg:right-[8%] top-4 lg:top-[6%] z-20">
-            <div className="px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/10">
-              <span className="font-configurator text-[10px] font-bold tracking-[0.3em] uppercase text-white/60">
-                Coming Soon
-              </span>
+            {/* Model description: inline on mobile, absolute on lg */}
+            <div className="mt-3 max-w-[280px] lg:absolute lg:left-0 lg:top-[calc(100%+80px)]">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={model.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, delay: 0.15 }}
+                  className="font-configurator font-light text-[13px] lg:text-[15px] leading-relaxed text-white/35"
+                >
+                  {model.desc}
+                </motion.p>
+              </AnimatePresence>
             </div>
           </div>
-        )}
 
-        {/* Car Image area */}
-        <div className="flex-1 flex items-center justify-center relative px-4">
-          <div className="absolute w-[55%] h-[25%] bottom-[18%] bg-[#050505] blur-[50px] rounded-full pointer-events-none" />
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={model.id}
-              initial={{ opacity: 0, scale: 0.92, x: direction * 60 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.96, x: direction * -60 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10 w-[70%] sm:w-[55%] lg:w-[45%] max-w-[864px] aspect-video"
-            >
-              <img
-                src={model.image}
-                alt={model.name}
-                className="w-full h-full object-contain select-none"
-                draggable={false}
+          {/* Model selector dots */}
+          <div className="hidden lg:flex absolute left-[4%] top-1/2 -translate-y-1/2 z-20 flex-col gap-2.5">
+            {CONFIGURATOR_MODELS.map((m, i) => (
+              <button
+                key={m.id}
+                onClick={() => goToModel(i)}
+                className={`rounded-full transition-all duration-300 ${
+                  selectedModelIndex === i
+                    ? 'w-2.5 h-2.5 scale-100'
+                    : 'w-2 h-2 opacity-40 hover:opacity-70'
+                }`}
+                style={{
+                  backgroundColor: selectedModelIndex === i ? m.activeColor : '#fff',
+                }}
+                title={m.name}
+                aria-label={`Select ${m.name}`}
               />
-            </motion.div>
-          </AnimatePresence>
+            ))}
+          </div>
 
-          <motion.button
-            onClick={prevModel}
-            className="absolute left-[8%] lg:left-[15%] top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Previous model"
-          >
-            <ChevronLeft className="w-5 h-5 text-white/60" />
-          </motion.button>
-          <motion.button
-            onClick={nextModel}
-            className="absolute right-[8%] lg:right-[15%] top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Next model"
-          >
-            <ChevronRight className="w-5 h-5 text-white/60" />
-          </motion.button>
+          {/* Coming Soon badge */}
+          {model.comingSoon && (
+            <div className="absolute right-6 lg:right-[8%] top-4 lg:top-[6%] z-20">
+              <div className="px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/10">
+                <span className="font-configurator text-[10px] font-bold tracking-[0.3em] uppercase text-white/60">
+                  Coming Soon
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Car Image area */}
+          <div className="flex-1 flex items-center justify-center relative px-4">
+            <div className="absolute w-[55%] h-[25%] bottom-[18%] bg-[#050505] blur-[50px] rounded-full pointer-events-none" />
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={model.id}
+                initial={{ opacity: 0, scale: 0.92, x: direction * 60 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.96, x: direction * -60 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="relative z-10 w-[85%] sm:w-[55%] lg:w-[45%] max-w-[864px] aspect-video"
+              >
+                <img
+                  src={model.image}
+                  alt={model.name}
+                  className="w-full h-full object-contain select-none"
+                  draggable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            <motion.button
+              onClick={prevModel}
+              className="absolute left-2 sm:left-[8%] lg:left-[15%] top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Previous model"
+            >
+              <ChevronLeft className="w-5 h-5 text-white/60" />
+            </motion.button>
+            <motion.button
+              onClick={nextModel}
+              className="absolute right-2 sm:right-[8%] lg:right-[15%] top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              aria-label="Next model"
+            >
+              <ChevronRight className="w-5 h-5 text-white/60" />
+            </motion.button>
+          </div>
         </div>
 
         {/* Bottom: Hull Color Swatches + START CONFIGURATION */}
@@ -209,7 +213,7 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="relative z-20 flex items-center justify-center gap-4 lg:gap-6 px-4 lg:px-[8%] pb-5 lg:pb-7"
+          className="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 lg:gap-6 px-4 lg:px-[8%] pb-5 lg:pb-7"
         >
           <div className="flex items-center gap-2 px-3 py-2 bg-white/[0.05] rounded-[10px] border border-white/[0.08] backdrop-blur-sm overflow-x-auto hide-scrollbar">
             {hullColorOptions.map((option) => (

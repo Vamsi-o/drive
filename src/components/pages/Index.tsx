@@ -27,7 +27,7 @@ const Index = () => {
   return (
     <>
       <SmoothScroll />
-      <NavBar />
+      <NavBar transparentOnHero />
       <SocialSidebar />
       <main>
         <HeroSectionV2 />

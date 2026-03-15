@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, Search, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,9 +22,20 @@ const secondaryLinks = [
   { key: "history", href: "/company/history" },
 ];
 
-const NavBar = () => {
+const NavBar = ({ transparentOnHero = false }: { transparentOnHero?: boolean }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    if (!transparentOnHero) return;
+    const handleScroll = () => {
+      setScrolled(window.scrollY > window.innerHeight * 0.15);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [transparentOnHero]);
 
   const changeLanguage = (code: string) => {
     i18n.changeLanguage(code);
@@ -36,7 +47,7 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 md:px-10 py-5 bg-black/60 backdrop-blur-md pointer-events-none">
+      <header className={`fixed top-0 left-0 right-0 z-[60] flex items-center justify-between px-6 md:px-10 py-5 transition-all duration-300 pointer-events-none ${transparentOnHero && !scrolled ? 'bg-transparent' : 'bg-black/60 backdrop-blur-md'}`}>
         {/* Left: Menu */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}

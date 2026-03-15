@@ -16,22 +16,6 @@ export interface ConfiguratorState {
   showDownloadModal: boolean;
 }
 
-export type ConfiguratorAction =
-  | { type: 'SELECT_MODEL'; index: number }
-  | { type: 'START_CONFIGURATION' }
-  | { type: 'BACK_TO_LANDING' }
-  | { type: 'TOGGLE_SIDEBAR' }
-  | { type: 'OPEN_SIDEBAR' }
-  | { type: 'CLOSE_SIDEBAR' }
-  | { type: 'SET_TAB'; tab: TabId }
-  | { type: 'SELECT_CATEGORY'; categoryId: string }
-  | { type: 'BACK_TO_CATEGORIES' }
-  | { type: 'SELECT_OPTION'; categoryId: string; optionId: string }
-  | { type: 'SET_ANGLE'; angle: string }
-  | { type: 'RESET_ALL' }
-  | { type: 'SHOW_DOWNLOAD' }
-  | { type: 'HIDE_DOWNLOAD' };
-
 const ALL_CATEGORY_IDS = [
   'hull-color', 'hull-graphics', 'exterior-trim',
   'upholstery', 'dashboard-trim', 'ambient-lighting',
@@ -46,6 +30,23 @@ interface PersistedState {
   touched: string[];
   activeTab: TabId;
 }
+
+export type ConfiguratorAction =
+  | { type: 'RESTORE_PERSISTED'; persisted: PersistedState }
+  | { type: 'SELECT_MODEL'; index: number }
+  | { type: 'START_CONFIGURATION' }
+  | { type: 'BACK_TO_LANDING' }
+  | { type: 'TOGGLE_SIDEBAR' }
+  | { type: 'OPEN_SIDEBAR' }
+  | { type: 'CLOSE_SIDEBAR' }
+  | { type: 'SET_TAB'; tab: TabId }
+  | { type: 'SELECT_CATEGORY'; categoryId: string }
+  | { type: 'BACK_TO_CATEGORIES' }
+  | { type: 'SELECT_OPTION'; categoryId: string; optionId: string }
+  | { type: 'SET_ANGLE'; angle: string }
+  | { type: 'RESET_ALL' }
+  | { type: 'SHOW_DOWNLOAD' }
+  | { type: 'HIDE_DOWNLOAD' };
 
 function loadPersistedState(): PersistedState | null {
   try {
@@ -97,22 +98,32 @@ function clearPersistedState() {
 }
 
 function createInitialState(modelIndex: number): ConfiguratorState {
-  const persisted = loadPersistedState();
+  // Don't read localStorage here — it causes hydration mismatches.
+  // Persisted state is restored in useEffect after mount.
   return {
     phase: 'landing',
-    selectedModelIndex: persisted?.selectedModelIndex ?? modelIndex,
+    selectedModelIndex: modelIndex,
     sidebarOpen: false,
-    activeTab: persisted?.activeTab ?? 'exterior',
+    activeTab: 'exterior',
     activeCategory: null,
     activeAngle: 'side',
-    selections: persisted?.selections ?? { ...DEFAULT_SELECTIONS },
-    touched: persisted?.touched ?? [],
+    selections: { ...DEFAULT_SELECTIONS },
+    touched: [],
     showDownloadModal: false,
   };
 }
 
 function reducer(state: ConfiguratorState, action: ConfiguratorAction): ConfiguratorState {
   switch (action.type) {
+    case 'RESTORE_PERSISTED':
+      return {
+        ...state,
+        selectedModelIndex: action.persisted.selectedModelIndex,
+        selections: action.persisted.selections,
+        touched: action.persisted.touched,
+        activeTab: action.persisted.activeTab,
+      };
+
     case 'SELECT_MODEL':
       return { ...state, selectedModelIndex: action.index };
 
@@ -197,6 +208,17 @@ export function useConfiguratorState(modelSlug?: string) {
 
   const [state, dispatch] = useReducer(reducer, initialModelIndex, createInitialState);
   const model = CONFIGURATOR_MODELS[state.selectedModelIndex];
+
+  // Restore persisted state from localStorage after mount (avoids hydration mismatch)
+  const hasRestored = useRef(false);
+  useEffect(() => {
+    if (hasRestored.current) return;
+    hasRestored.current = true;
+    const persisted = loadPersistedState();
+    if (persisted) {
+      dispatch({ type: 'RESTORE_PERSISTED', persisted });
+    }
+  }, []);
 
   // Persist state changes (debounced)
   const persistTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);

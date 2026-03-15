@@ -1,5 +1,10 @@
 import ConfiguratorFullPage from '@/components/pages/ConfiguratorFullPage';
+import ConfiguratorErrorBoundary from '@/components/configurator/ConfiguratorErrorBoundary';
 
 export default function Page() {
-  return <ConfiguratorFullPage />;
+  return (
+    <ConfiguratorErrorBoundary>
+      <ConfiguratorFullPage />
+    </ConfiguratorErrorBoundary>
+  );
 }
