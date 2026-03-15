@@ -10,8 +10,6 @@ interface Props {
   materials: CarMaterialSet;
 }
 
-useGLTF.preload('/models/car.glb');
-
 const CarModel = ({ materials }: Props) => {
   const { scene } = useGLTF('/models/car.glb');
   const groupRef = useRef<THREE.Group>(null);

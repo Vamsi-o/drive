@@ -1,12 +1,11 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import CarModel from './CarModel';
 import { useCarMaterials } from './CarMaterials';
 import type { ConfiguratorModel } from '@/data/configuratorData';
 import type { ConfiguratorAction } from '@/hooks/useConfiguratorState';
@@ -29,6 +28,11 @@ function detectWebGL(): boolean {
   }
 }
 
+function isMobileDevice(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 function LoadingSpinner() {
   return (
     <mesh position={[0, 0.5, 0]}>
@@ -38,8 +42,27 @@ function LoadingSpinner() {
   );
 }
 
-function SceneContent({ selections }: { selections: Record<string, string> }) {
+// Lazy-load CarModel only when we actually need 3D
+function SceneContent({ selections, onError }: { selections: Record<string, string>; onError: () => void }) {
   const materials = useCarMaterials(selections);
+  const [CarModel, setCarModel] = useState<React.ComponentType<{ materials: ReturnType<typeof useCarMaterials> }> | null>(null);
+
+  useEffect(() => {
+    // First check if the GLB file actually exists before loading the component
+    fetch('/models/car.glb', { method: 'HEAD' })
+      .then((res) => {
+        if (!res.ok) {
+          onError();
+          return;
+        }
+        // File exists — dynamically import CarModel
+        import('./CarModel')
+          .then((mod) => setCarModel(() => mod.default))
+          .catch(() => onError());
+      })
+      .catch(() => onError());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -94,7 +117,7 @@ function SceneContent({ selections }: { selections: Record<string, string> }) {
 
       {/* Car */}
       <Suspense fallback={<LoadingSpinner />}>
-        <CarModel materials={materials} />
+        {CarModel && <CarModel materials={materials} />}
       </Suspense>
 
       {/* Orbit controls */}
@@ -114,31 +137,42 @@ function SceneContent({ selections }: { selections: Record<string, string> }) {
   );
 }
 
-function WebGLFallback({ model }: { model: ConfiguratorModel }) {
+function ImageFallback({ model, message }: { model: ConfiguratorModel; message?: string }) {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#111]">
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#f5f5f5] via-[#e8e8e8] to-[#dcdcdc]">
       <img
         src={model.image}
         alt={model.name}
-        className="w-[65%] max-w-[750px] object-contain"
+        className="w-[75%] max-w-[750px] object-contain"
       />
-      <div className="mt-6 px-5 py-3 bg-white/[0.05] rounded-xl text-center">
-        <p className="font-configurator text-[13px] font-semibold text-white/60">
-          3D view unavailable
-        </p>
-        <p className="font-configurator text-[11px] text-white/35 mt-1">
-          Enable hardware acceleration in your browser settings for the full 3D experience
-        </p>
-      </div>
+      {message && (
+        <div className="mt-6 px-5 py-3 bg-black/[0.04] rounded-xl text-center">
+          <p className="font-configurator text-[11px] text-black/30">
+            {message}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
 
 const ConfiguratorCanvas = ({ model, sidebarOpen, selections }: Props) => {
   const { t } = useTranslation();
-  // Since this component is dynamically imported with ssr: false,
-  // we can safely check WebGL synchronously in the browser
-  const webglAvailable = typeof window !== 'undefined' ? detectWebGL() : false;
+  const [use3D, setUse3D] = useState(false);
+  const [glbFailed, setGlbFailed] = useState(false);
+
+  useEffect(() => {
+    // On mobile: skip 3D entirely — better performance and avoids GLB download
+    // On desktop: only use 3D if WebGL is available
+    const mobile = isMobileDevice();
+    const webgl = detectWebGL();
+    const shouldUse3D = !mobile && webgl;
+    if (shouldUse3D) {
+      queueMicrotask(() => setUse3D(true));
+    }
+  }, []);
+
+  const show3D = use3D && !glbFailed;
 
   return (
     <motion.div
@@ -148,7 +182,7 @@ const ConfiguratorCanvas = ({ model, sidebarOpen, selections }: Props) => {
       }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
-      {webglAvailable ? (
+      {show3D ? (
         <>
           <Canvas
             shadows
@@ -166,7 +200,7 @@ const ConfiguratorCanvas = ({ model, sidebarOpen, selections }: Props) => {
             }}
             style={{ background: 'linear-gradient(180deg, #f5f5f5 0%, #e8e8e8 40%, #dcdcdc 100%)' }}
           >
-            <SceneContent selections={selections} />
+            <SceneContent selections={selections} onError={() => setGlbFailed(true)} />
           </Canvas>
 
           {/* Hint */}
@@ -184,7 +218,7 @@ const ConfiguratorCanvas = ({ model, sidebarOpen, selections }: Props) => {
           </motion.div>
         </>
       ) : (
-        <WebGLFallback model={model} />
+        <ImageFallback model={model} />
       )}
     </motion.div>
   );
