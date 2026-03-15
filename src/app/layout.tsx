@@ -3,6 +3,7 @@ import { Playfair_Display, Roboto_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import MediaProtection from "@/components/MediaProtection";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${robotoCondensed.variable} ${inter.variable}`}>
       <body className="antialiased">
         <Providers>
+          <MediaProtection />
           {children}
           <WhatsAppButton />
         </Providers>

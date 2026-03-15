@@ -100,7 +100,7 @@ const GalleryPage = () => {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setActiveFilter(cat)}
+              onClick={() => { setActiveFilter(cat); setLightbox(null); }}
               className={`px-5 py-2 text-[11px] tracking-[0.15em] uppercase font-medium border transition-all duration-300 ${
                 activeFilter === cat
                   ? "bg-tiffany text-black border-tiffany"

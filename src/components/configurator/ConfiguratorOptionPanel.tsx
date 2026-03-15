@@ -81,7 +81,7 @@ const ConfiguratorOptionPanel = ({ category, selectedOptionId, onSelect, onBack 
       <div className="flex-1 overflow-y-auto px-4 pb-4 hide-scrollbar">
         {/* Color Swatches */}
         {hasColorSwatches && (
-          <div className="grid grid-cols-4 gap-2.5 mb-4 px-1">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 mb-4 px-1">
             {category.options.map((option) => {
               const isSelected = selectedOptionId === option.id;
               return (

@@ -95,7 +95,7 @@ const FooterSection = () => {
         <div>
           <h4 className="text-white text-sm md:text-base font-bold mb-3" style={{ fontFamily: 'var(--font-heading)' }}>COPYRIGHT</h4>
           <p className="text-[#B4B4B4] text-xs md:text-sm leading-relaxed">
-            © 2026 E-Drive JetCar Manufacturing L.L.C.
+            © {new Date().getFullYear()} E-Drive JetCar Manufacturing L.L.C.
             <br />
             All rights reserved.
           </p>

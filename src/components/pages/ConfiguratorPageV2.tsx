@@ -105,10 +105,10 @@ const ConfiguratorPageV2 = () => {
           )}
 
           {/* Title Area */}
-          <div className="font-light text-xl md:text-2xl sm:text-[32px] leading-tight text-white mb-2">
+          <div className="font-light text-xl sm:text-2xl md:text-[32px] leading-tight text-white mb-2">
             {t('configurator.headline').toUpperCase()}
           </div>
-          <div className="font-bold text-3xl md:text-4xl sm:text-[64px] leading-tight text-white mb-3">
+          <div className="font-bold text-3xl sm:text-4xl md:text-[64px] leading-tight text-white mb-3">
             {activeTab.name}
           </div>
           <div className="font-medium text-[15px] lg:text-[18px] tracking-[0.2em] uppercase text-[#F6C974] mb-6" style={{ color: activeTab.activeColor !== '#FFFFFF' ? activeTab.activeColor : '#81D8D0' }}>
