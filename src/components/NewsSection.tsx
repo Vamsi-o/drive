@@ -141,7 +141,7 @@ const NewsSection = () => {
   const featured = articles[0];
 
   return (
-    <section id="news" className="bg-white py-20">
+    <section id="news" data-theme="light" className="bg-white py-20">
       {/* Header */}
       <div className="px-8 md:px-16 flex items-end justify-between mb-12">
         <motion.div

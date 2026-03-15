@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 const news1 = "/assets/news-1.jpg";
 const news2 = "/assets/news-2.jpg";
 const news3 = "/assets/news-3.jpg";
-const heroImg = "/assets/hero-headlight.jpg";
 const modelRImg = "/assets/config/modelR.jpg";
 
 const articles = [

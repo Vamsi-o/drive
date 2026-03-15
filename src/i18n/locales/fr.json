@@ -92,6 +92,13 @@
     "articleNotFound": "Article introuvable",
     "backToNews": "Retour aux actualités"
   },
+  "blogs": {
+    "title": "Blog",
+    "subtitle": "Perspectives & Histoires",
+    "readMore": "Lire la suite",
+    "articleNotFound": "Article introuvable",
+    "backToBlogs": "Retour au Blog"
+  },
   "dealerships": {
     "title": "Trouver un concessionnaire",
     "searchPlaceholder": "Rechercher par ville ou pays..."

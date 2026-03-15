@@ -103,7 +103,7 @@ const NavBar = ({ transparentOnHero = false }: { transparentOnHero?: boolean }) 
         </Link>
         {/* Right: Icons */}
         <div className="flex items-center gap-5 pointer-events-auto">
-          <a href="https://wa.me/971553949955" target="_blank" rel="noopener noreferrer" className="text-foreground hover:opacity-60 transition-opacity">
+          <a href="https://wa.me/message/3DYTH4POQLBFD1" target="_blank" rel="noopener noreferrer" className="text-foreground hover:opacity-60 transition-opacity">
             <MessageCircle size={18} />
           </a>
           <button className="text-foreground hover:opacity-60 transition-opacity">

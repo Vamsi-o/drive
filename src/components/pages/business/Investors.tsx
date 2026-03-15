@@ -23,6 +23,8 @@ const Investors = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // TODO: Implement form submission — send data to backend API or email service
+    console.warn('Form submission not yet implemented — data is not being sent.');
     setSubmitted(true);
   };
 

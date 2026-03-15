@@ -92,6 +92,13 @@
     "articleNotFound": "Hindi nahanap ang artikulo",
     "backToNews": "Bumalik sa Balita"
   },
+  "blogs": {
+    "title": "Blog",
+    "subtitle": "Mga Pananaw at Kwento",
+    "readMore": "Magbasa pa",
+    "articleNotFound": "Hindi nahanap ang artikulo",
+    "backToBlogs": "Bumalik sa Blog"
+  },
   "dealerships": {
     "title": "Tagahanap ng Dealer",
     "searchPlaceholder": "Maghanap ayon sa lungsod o bansa..."

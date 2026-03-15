@@ -23,25 +23,34 @@ export const languages = [
   { code: 'zh', label: 'Chinese' },
 ];
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: { translation: en },
-      ar: { translation: ar },
-      ru: { translation: ru },
-      fr: { translation: fr },
-      de: { translation: de },
-      es: { translation: es },
-      el: { translation: el },
-      fil: { translation: fil },
-      zh: { translation: zh },
-    },
-    lng: 'en', // Always start with 'en' to avoid hydration mismatch
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+if (!i18n.isInitialized) {
+  i18n
+    .use(initReactI18next)
+    .init({
+      resources: {
+        en: { translation: en },
+        ar: { translation: ar },
+        ru: { translation: ru },
+        fr: { translation: fr },
+        de: { translation: de },
+        es: { translation: es },
+        el: { translation: el },
+        fil: { translation: fil },
+        zh: { translation: zh },
+      },
+      lng: 'en',
+      fallbackLng: 'en',
+      interpolation: {
+        escapeValue: false,
+      },
+    });
+}
+
+// Always reset to English on module evaluation so the first client render
+// matches the server-rendered HTML (which is always English).
+// The user's saved language is restored in Providers.tsx after hydration.
+if (typeof window !== 'undefined' && i18n.language !== 'en') {
+  i18n.changeLanguage('en');
+}
 
 export default i18n;

@@ -92,81 +92,96 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
       {/* Main Content Area */}
       <div className="flex-1 relative flex flex-col justify-between overflow-hidden">
 
-        {/* Mobile: stacked layout for text + image */}
-        <div className="flex flex-col lg:block flex-1">
-
-          {/* MODEL Letter + Description: flow on mobile, absolute on lg */}
-          <div className="px-6 pt-4 lg:px-0 lg:pt-0 lg:absolute lg:left-[8%] lg:top-[6%] z-20">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={model.id}
-                initial={{ opacity: 0, x: direction * 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction * -30 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <span className="font-configurator text-[11px] sm:text-[13px] lg:text-[15px] tracking-[0.35em] font-light text-white/40 block">
-                  MODEL
-                </span>
-                <span
-                  className="font-serif italic font-bold text-[60px] sm:text-[80px] lg:text-[150px] leading-[0.78] tracking-[-0.02em] block"
-                  style={{ color: model.activeColor }}
-                >
-                  {model.letter}
-                </span>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Model description: inline on mobile, absolute on lg */}
-            <div className="mt-3 max-w-[280px] lg:absolute lg:left-0 lg:top-[calc(100%+80px)]">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={model.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3, delay: 0.15 }}
-                  className="font-configurator font-light text-[13px] lg:text-[15px] leading-relaxed text-white/35"
-                >
-                  {model.desc}
-                </motion.p>
-              </AnimatePresence>
+        {/* Coming Soon badge */}
+        {model.comingSoon && (
+          <div className="absolute right-6 lg:right-10 top-4 z-30">
+            <div className="px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/10">
+              <span className="font-configurator text-[10px] font-bold tracking-[0.3em] uppercase text-white/60">
+                Coming Soon
+              </span>
             </div>
           </div>
+        )}
 
-          {/* Model selector dots */}
-          <div className="hidden lg:flex absolute left-[4%] top-1/2 -translate-y-1/2 z-20 flex-col gap-2.5">
-            {CONFIGURATOR_MODELS.map((m, i) => (
-              <button
-                key={m.id}
-                onClick={() => goToModel(i)}
-                className={`rounded-full transition-all duration-300 ${
-                  selectedModelIndex === i
-                    ? 'w-2.5 h-2.5 scale-100'
-                    : 'w-2 h-2 opacity-40 hover:opacity-70'
-                }`}
-                style={{
-                  backgroundColor: selectedModelIndex === i ? m.activeColor : '#fff',
-                }}
-                title={m.name}
-                aria-label={`Select ${m.name}`}
-              />
-            ))}
-          </div>
+        {/* Two-column layout on lg, stacked on mobile */}
+        <div className="flex-1 flex flex-col lg:flex-row items-center lg:items-stretch px-6 lg:px-10 xl:px-16 gap-4 lg:gap-0">
 
-          {/* Coming Soon badge */}
-          {model.comingSoon && (
-            <div className="absolute right-6 lg:right-[8%] top-4 lg:top-[6%] z-20">
-              <div className="px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/10">
-                <span className="font-configurator text-[10px] font-bold tracking-[0.3em] uppercase text-white/60">
-                  Coming Soon
-                </span>
+          {/* Left column: Model info */}
+          <div className="w-full lg:w-[35%] xl:w-[30%] flex flex-col justify-center pt-4 lg:pt-0 lg:py-8 z-20 shrink-0">
+            <div className="flex items-start gap-4 lg:gap-5">
+              {/* Model selector dots — vertical, next to text */}
+              <div className="hidden lg:flex flex-col gap-2.5 pt-3">
+                {CONFIGURATOR_MODELS.map((m, i) => (
+                  <button
+                    key={m.id}
+                    onClick={() => goToModel(i)}
+                    className={`rounded-full transition-all duration-300 ${
+                      selectedModelIndex === i
+                        ? 'w-2.5 h-2.5 scale-100'
+                        : 'w-2 h-2 opacity-40 hover:opacity-70'
+                    }`}
+                    style={{
+                      backgroundColor: selectedModelIndex === i ? m.activeColor : '#fff',
+                    }}
+                    title={m.name}
+                    aria-label={`Select ${m.name}`}
+                  />
+                ))}
+              </div>
+
+              {/* Text content */}
+              <div className="flex-1 min-w-0">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={model.id}
+                    initial={{ opacity: 0, x: direction * 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: direction * -30 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    {model.logoImage ? (
+                      <img
+                        src={model.logoImage}
+                        alt={`${model.name} Logo`}
+                        className="h-[60px] sm:h-[80px] lg:h-[120px] xl:h-[150px] object-contain object-left"
+                      />
+                    ) : (
+                      <>
+                        <span className="font-configurator text-[11px] sm:text-[13px] lg:text-[15px] tracking-[0.35em] font-light text-white/40 block">
+                          MODEL
+                        </span>
+                        <span
+                          className="font-serif italic font-bold text-[60px] sm:text-[80px] lg:text-[120px] xl:text-[150px] leading-[0.78] tracking-[-0.02em] block"
+                          style={{ color: model.activeColor }}
+                        >
+                          {model.letter}
+                        </span>
+                      </>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Description */}
+                <div className="mt-4 lg:mt-6 max-w-[360px]">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={model.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.3, delay: 0.15 }}
+                      className="font-configurator font-light text-[13px] lg:text-[15px] leading-relaxed text-white/35"
+                    >
+                      {model.desc}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
-          )}
+          </div>
 
-          {/* Car Image area */}
-          <div className="flex-1 flex items-center justify-center relative px-4">
+          {/* Right column: Car Image */}
+          <div className="flex-1 flex items-center justify-center relative w-full lg:w-auto">
             <div className="absolute w-[55%] h-[25%] bottom-[18%] bg-[#050505] blur-[50px] rounded-full pointer-events-none" />
 
             <AnimatePresence mode="wait">
@@ -176,7 +191,7 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.96, x: direction * -60 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 w-[85%] sm:w-[55%] lg:w-[45%] max-w-[864px] aspect-video"
+                className="relative z-10 w-[90%] sm:w-[75%] lg:w-[85%] xl:w-[80%] max-w-[864px] aspect-video"
               >
                 <img
                   src={model.image}
@@ -189,7 +204,7 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
 
             <motion.button
               onClick={prevModel}
-              className="absolute left-2 sm:left-[8%] lg:left-[15%] top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
+              className="absolute left-0 sm:left-2 lg:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               aria-label="Previous model"
@@ -198,7 +213,7 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
             </motion.button>
             <motion.button
               onClick={nextModel}
-              className="absolute right-2 sm:right-[8%] lg:right-[15%] top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
+              className="absolute right-0 sm:right-2 lg:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-all"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               aria-label="Next model"

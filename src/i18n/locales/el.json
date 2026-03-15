@@ -92,6 +92,13 @@
     "articleNotFound": "Το άρθρο δεν βρέθηκε",
     "backToNews": "Πίσω στα νέα"
   },
+  "blogs": {
+    "title": "Ιστολόγιο",
+    "subtitle": "Γνώσεις & Ιστορίες",
+    "readMore": "Διαβάστε περισσότερα",
+    "articleNotFound": "Το άρθρο δεν βρέθηκε",
+    "backToBlogs": "Πίσω στο Ιστολόγιο"
+  },
   "dealerships": {
     "title": "Εντοπισμός αντιπροσώπων",
     "searchPlaceholder": "Αναζήτηση ανά πόλη ή χώρα..."

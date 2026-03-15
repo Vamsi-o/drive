@@ -80,6 +80,13 @@
     "articleNotFound": "المقال غير موجود",
     "backToNews": "العودة إلى الأخبار"
   },
+  "blogs": {
+    "title": "المدونة",
+    "subtitle": "رؤى وقصص",
+    "readMore": "اقرأ المزيد",
+    "articleNotFound": "المقال غير موجود",
+    "backToBlogs": "العودة إلى المدونة"
+  },
   "dealerships": {
     "title": "محدد مواقع الموزعين",
     "searchPlaceholder": "ابحث حسب المدينة أو الدولة..."
