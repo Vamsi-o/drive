@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Menu, X, Search, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,6 +25,33 @@ const secondaryLinks = [
 const NavBar = ({ transparentOnHero = false }: { transparentOnHero?: boolean }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [languagesOpen, setLanguagesOpen] = useState(false);
+  const textScaleRef = useRef(100);
+  const [textScale, setTextScale] = useState(100);
+
+  // Restore text scale from localStorage on mount (DOM-only, no state update during effect)
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('edrive-text-scale');
+      if (saved) {
+        const scale = parseInt(saved, 10);
+        if (scale >= 80 && scale <= 150) {
+          textScaleRef.current = scale;
+          document.documentElement.style.fontSize = `${scale}%`;
+          // Defer state update to avoid cascading render warning
+          queueMicrotask(() => setTextScale(scale));
+        }
+      }
+    } catch {}
+  }, []);
+
+  const changeTextScale = (delta: number) => {
+    const next = Math.min(150, Math.max(80, textScaleRef.current + delta));
+    textScaleRef.current = next;
+    setTextScale(next);
+    document.documentElement.style.fontSize = `${next}%`;
+    try { localStorage.setItem('edrive-text-scale', String(next)); } catch {}
+  };
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -39,6 +66,8 @@ const NavBar = ({ transparentOnHero = false }: { transparentOnHero?: boolean }) 
 
   const changeLanguage = (code: string) => {
     i18n.changeLanguage(code);
+    // Persist language choice
+    try { localStorage.setItem('i18nextLng', code); } catch {}
     // Set document direction for RTL languages
     requestAnimationFrame(() => {
       document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
@@ -160,38 +189,75 @@ const NavBar = ({ transparentOnHero = false }: { transparentOnHero?: boolean }) 
                 transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="mt-auto pt-16 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-8 max-w-[1500px] mx-auto w-full"
               >
-                {/* Language Selector — Inline buttons */}
-                <div className="flex items-center flex-wrap gap-x-1 gap-y-2">
-                  <span className="text-white/70 text-xs font-bold tracking-[0.2em] uppercase mr-4 flex items-center gap-2">
-                    {t('nav.languages')}
-                    <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
+                {/* Language Selector — Collapsible */}
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => setLanguagesOpen(!languagesOpen)}
+                    className="flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+                  >
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase">
+                      {t('nav.languages')}
+                    </span>
+                    <svg
+                      width="8"
+                      height="5"
+                      viewBox="0 0 10 6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className={`transition-transform duration-300 ${languagesOpen ? 'rotate-180' : ''}`}
+                    >
                       <path d="M1 1L5 5L9 1" />
                     </svg>
-                  </span>
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => changeLanguage(lang.code)}
-                      className={`px-3 py-1.5 text-xs tracking-wide transition-all duration-200 ${
-                        i18n.language === lang.code
-                          ? 'bg-tiffany text-black font-bold rounded-sm'
-                          : 'text-white/60 hover:text-white'
-                      }`}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
+                  </button>
+                  <AnimatePresence>
+                    {languagesOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="flex items-center flex-wrap gap-x-1 gap-y-2 pt-1">
+                          {languages.map((lang) => (
+                            <button
+                              key={lang.code}
+                              onClick={() => changeLanguage(lang.code)}
+                              className={`px-3 py-1.5 text-xs tracking-wide transition-all duration-200 ${
+                                i18n.language === lang.code
+                                  ? 'bg-tiffany text-black font-bold rounded-sm'
+                                  : 'text-white/60 hover:text-white'
+                              }`}
+                            >
+                              {lang.label}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Text Size controls */}
                 <div className="flex items-center gap-5 text-white">
-                  <button className="w-8 h-8 flex items-center justify-center border border-white/20 rounded-none hover:border-white transition-colors hover:bg-white/5">
+                  <button
+                    onClick={() => changeTextScale(-10)}
+                    disabled={textScale <= 80}
+                    className="w-8 h-8 flex items-center justify-center border border-white/20 rounded-none hover:border-white transition-colors hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Decrease text size"
+                  >
                     <svg width="12" height="2" viewBox="0 0 12 2" fill="currentColor"><path d="M0 0H12V2H0V0Z"/></svg>
                   </button>
-                  <button className="w-8 h-8 flex items-center justify-center border border-white/20 rounded-none hover:border-white transition-colors hover:bg-white/5">
+                  <button
+                    onClick={() => changeTextScale(10)}
+                    disabled={textScale >= 150}
+                    className="w-8 h-8 flex items-center justify-center border border-white/20 rounded-none hover:border-white transition-colors hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                    aria-label="Increase text size"
+                  >
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M5 0H7V12H5V0ZM0 5H12V7H0V5Z"/></svg>
                   </button>
-                  <span className="text-[10px] font-bold tracking-[0.2em] ml-2 uppercase text-white/80">{t('nav.textSize')}</span>
+                  <span className="text-[10px] font-bold tracking-[0.2em] ml-2 uppercase text-white/80">{t('nav.textSize')} ({textScale}%)</span>
                 </div>
               </motion.div>
             </div>

@@ -65,6 +65,7 @@ const socials = [
 
 const SocialSidebar = () => {
   const [isDark, setIsDark] = useState(true);
+  const [isRtl, setIsRtl] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,9 +89,20 @@ const SocialSidebar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Watch for RTL changes on the document
+  useEffect(() => {
+    const checkDir = () => setIsRtl(document.documentElement.dir === 'rtl');
+    checkDir();
+    const observer = new MutationObserver(checkDir);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <aside
-      className="hidden lg:flex flex-col gap-[18px] fixed right-6 top-1/2 -translate-y-1/2 z-50 transition-colors duration-500"
+      className={`hidden lg:flex flex-col gap-[18px] fixed top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ${
+        isRtl ? 'left-6' : 'right-6'
+      }`}
     >
       {socials.map((s) => (
         <a
