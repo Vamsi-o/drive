@@ -161,6 +161,14 @@ img {
               opacity 0.5s ease;
 }
 
+/* ─── Media Download Protection ─── */
+img, video {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
 /* Prevent white flash between page navigations */
 body {
   background-color: #0A0A0A;

@@ -79,7 +79,8 @@
   },
   "dealer": {
     "globalNetwork": "Global Network",
-    "becomeDistributor": "Become a Distributor"
+    "becomeDistributor": "Become a Distributor",
+    "noResults": "No dealerships found matching your search."
   },
   "notFound": {
     "message": "Oops! Page not found",

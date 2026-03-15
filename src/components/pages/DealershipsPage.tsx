@@ -54,15 +54,21 @@ const DealershipsPage = () => {
 
         {/* Dealers list */}
         <section className="px-8 md:px-16 pb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
-            {filtered.map((dealer) => (
-              <div key={dealer.name} className="bg-background p-8 hover:bg-secondary/50 transition-colors cursor-pointer">
-                <h3 className="text-heading-xl text-lg text-foreground mb-2">{dealer.name}</h3>
-                <p className="text-sm text-muted-foreground font-body">{dealer.address}</p>
-                <p className="text-xs text-muted-foreground font-body mt-1">{dealer.city}, {dealer.country}</p>
-              </div>
-            ))}
-          </div>
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+              {filtered.map((dealer) => (
+                <div key={dealer.name} className="bg-background p-8 hover:bg-secondary/50 transition-colors cursor-pointer">
+                  <h3 className="text-heading-xl text-lg text-foreground mb-2">{dealer.name}</h3>
+                  <p className="text-sm text-muted-foreground font-body">{dealer.address}</p>
+                  <p className="text-xs text-muted-foreground font-body mt-1">{dealer.city}, {dealer.country}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-lg font-body">{t('dealer.noResults')}</p>
+            </div>
+          )}
         </section>
       </main>
       <FooterSection />

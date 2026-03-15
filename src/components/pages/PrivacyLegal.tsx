@@ -120,7 +120,7 @@ const PrivacyLegal = () => {
           <div className="max-w-4xl mx-auto">
             <motion.div {...fade}>
               <p className="text-2xl md:text-4xl font-light italic leading-snug">
-                © 2026 E-Drive JetCar Manufacturing L.L.C. All rights reserved.
+                © {new Date().getFullYear()} E-Drive JetCar Manufacturing L.L.C. All rights reserved.
               </p>
             </motion.div>
           </div>

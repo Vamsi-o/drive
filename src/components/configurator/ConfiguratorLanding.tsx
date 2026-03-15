@@ -52,9 +52,9 @@ const ConfiguratorLanding = ({ model, selectedModelIndex, selections, dispatch }
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') prevModel();
-      else if (e.key === 'ArrowRight') nextModel();
-      else if (e.key === 'Enter' && !model.comingSoon) dispatch({ type: 'START_CONFIGURATION' });
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevModel(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); nextModel(); }
+      else if (e.key === 'Enter' && !model.comingSoon) { e.preventDefault(); dispatch({ type: 'START_CONFIGURATION' }); }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);

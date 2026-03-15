@@ -58,8 +58,6 @@ const ConfiguratorFullPage = ({ modelSlug }: { modelSlug?: string }) => {
                 model={model}
                 sidebarOpen={state.sidebarOpen}
                 selections={state.selections}
-                activeAngle={state.activeAngle}
-                dispatch={dispatch}
               />
 
               <AnimatePresence>

@@ -171,7 +171,7 @@ const BlogsSection = () => {
                     <h4 className="text-sm md:text-[15px] font-bold leading-snug mb-1.5 group-hover:opacity-60 transition-opacity" style={{ fontFamily: 'var(--font-heading)' }}>
                       <Title parts={article.titleParts} />
                     </h4>
-                    <p className="text-black/40 font-body text-xs leading-relaxed line-clamp-2 hidden sm:block">
+                    <p className="text-black/40 font-body text-xs leading-relaxed line-clamp-1 sm:line-clamp-2">
                       {article.description}
                     </p>
                   </div>
