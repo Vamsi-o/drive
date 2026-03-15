@@ -92,6 +92,13 @@
     "articleNotFound": "Artículo no encontrado",
     "backToNews": "Volver a noticias"
   },
+  "blogs": {
+    "title": "Blog",
+    "subtitle": "Ideas e Historias",
+    "readMore": "Leer más",
+    "articleNotFound": "Artículo no encontrado",
+    "backToBlogs": "Volver al Blog"
+  },
   "dealerships": {
     "title": "Localizador de distribuidores",
     "searchPlaceholder": "Buscar por ciudad o país..."

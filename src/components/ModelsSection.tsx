@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
@@ -56,11 +56,10 @@ const ModelsSection = () => {
   const current = models[active];
   const count = models.length;
 
-  const goPrev = () => setActive((prev) => (prev - 1 + count) % count);
-  const goNext = () => setActive((prev) => (prev + 1) % count);
+  const goPrev = useCallback(() => setActive((prev) => (prev - 1 + count) % count), [count]);
+  const goNext = useCallback(() => setActive((prev) => (prev + 1) % count), [count]);
 
-  // Swipe / drag support — works across the entire section
-  const sectionRef = useRef<HTMLElement>(null);
+  // Swipe / drag support — works across the section's carousel area only
   const dragStartX = useRef<number>(0);
   const dragStartY = useRef<number>(0);
   const swiped = useRef(false);
@@ -69,8 +68,6 @@ const ModelsSection = () => {
     dragStartX.current = e.clientX;
     dragStartY.current = e.clientY;
     swiped.current = false;
-    // Capture pointer so we get pointerup even if finger/mouse leaves the element
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent) => {
@@ -83,47 +80,17 @@ const ModelsSection = () => {
       if (dx < 0) goNext();
       else goPrev();
     }
-  }, []);
+  }, [goNext, goPrev]);
 
   const handlePointerUp = useCallback(() => {
     swiped.current = false;
   }, []);
 
-  // Auto-play: advance every 4s, pause on user interaction for 8s
-  const pauseUntil = useRef(0);     
-
-  const pauseAutoPlay = useCallback(() => {
-    pauseUntil.current = Date.now() + 8000;
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (Date.now() < pauseUntil.current) return;
-      setActive((prev) => (prev + 1) % count);
-    }, 10000);
-    return () => clearInterval(timer);
-  }, [count]);
-
-  // Wrap existing handlers to also pause auto-play
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
-    pauseAutoPlay();
-    handlePointerDown(e);
-  }, [handlePointerDown, pauseAutoPlay]);
-
-  const onArrowPrev = useCallback(() => { pauseAutoPlay(); goPrev(); }, [pauseAutoPlay]);
-  const onArrowNext = useCallback(() => { pauseAutoPlay(); goNext(); }, [pauseAutoPlay]);
-  const onDotClick = useCallback((i: number) => { pauseAutoPlay(); setActive(i); }, [pauseAutoPlay]);
-
   return (
     <section
       id="models"
-      ref={sectionRef}
       data-theme="light"
-      className="bg-[#FAFAFA] overflow-hidden scroll-mt-[70px] touch-pan-y select-none cursor-grab active:cursor-grabbing"
-      onPointerDown={onPointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerUp}
+      className="bg-[#FAFAFA] overflow-hidden scroll-mt-[70px]"
     >
       {/* Top accent line */}
       <div className="w-full h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
@@ -155,16 +122,19 @@ const ModelsSection = () => {
         </div>
 
         {/* Model Badge row — Arrows flanking the logo/name */}
-        <div className="flex items-center justify-center mb-1 min-h-[60px] lg:min-h-[80px] px-8 md:px-16 gap-10 md:gap-80">
+        <div className="flex items-center justify-center mb-1 min-h-[60px] lg:min-h-[80px] px-8 md:px-16 gap-10 md:gap-20 lg:gap-40">
           {/* Left Arrow — Hexagonal outline */}
           <button
-            onClick={onArrowPrev}
-            className="group flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/25 hover:bg-black/50 transition-all duration-300"
+            onClick={goPrev}
+            className="group flex-shrink-0 w-12 h-12 md:w-14 md:h-14 relative flex items-center justify-center cursor-pointer"
             aria-label="Previous model"
-            style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
           >
             <div
-              className="w-[calc(100%-3px)] h-[calc(100%-3px)] flex items-center justify-center bg-[#FAFAFA]"
+              className="absolute inset-0 bg-black/25 group-hover:bg-black/50 transition-all duration-300"
+              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+            />
+            <div
+              className="absolute inset-[1.5px] flex items-center justify-center bg-[#FAFAFA]"
               style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-black/50 group-hover:text-black transition-colors">
@@ -212,13 +182,16 @@ const ModelsSection = () => {
 
           {/* Right Arrow — Hexagonal outline */}
           <button
-            onClick={onArrowNext}
-            className="group flex-shrink-0 w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-black/25 hover:bg-black/50 transition-all duration-300"
+            onClick={goNext}
+            className="group flex-shrink-0 w-12 h-12 md:w-14 md:h-14 relative flex items-center justify-center cursor-pointer"
             aria-label="Next model"
-            style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
           >
             <div
-              className="w-[calc(100%-3px)] h-[calc(100%-3px)] flex items-center justify-center bg-[#FAFAFA]"
+              className="absolute inset-0 bg-black/25 group-hover:bg-black/50 transition-all duration-300"
+              style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+            />
+            <div
+              className="absolute inset-[1.5px] flex items-center justify-center bg-[#FAFAFA]"
               style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-black/50 group-hover:text-black transition-colors">
@@ -244,8 +217,14 @@ const ModelsSection = () => {
           </AnimatePresence>
         </div>
 
-        {/* Car Carousel with Adjacent Peeks */}
-        <div className="relative h-[180px] sm:h-[250px] md:h-[320px] lg:h-[380px] w-full mb-2 overflow-hidden">
+        {/* Car Carousel with Adjacent Peeks — swipe area */}
+        <div
+          className="relative h-[180px] sm:h-[250px] md:h-[320px] lg:h-[380px] w-full mb-2 overflow-hidden touch-pan-y select-none cursor-grab active:cursor-grabbing"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
           <div className="relative w-full h-full max-w-[1200px] mx-auto flex items-center justify-center">
             {models.map((model, index) => {
               let offset = (index - active) % count;
@@ -285,7 +264,7 @@ const ModelsSection = () => {
                   animate={{ x, scale, opacity, zIndex }}
                   transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
                   className="absolute w-[65%] md:w-[55%] max-w-[700px] flex items-center justify-center cursor-pointer"
-                  onClick={() => { if (!isCenter) { pauseAutoPlay(); setActive(index); } }}
+                  onClick={() => { if (!isCenter) setActive(index); }}
                 >
                   <img
                     src={model.image}
@@ -333,7 +312,7 @@ const ModelsSection = () => {
           {models.map((_, i) => (
             <button
               key={i}
-              onClick={() => onDotClick(i)}
+              onClick={() => setActive(i)}
               className={`transition-all duration-300 rounded-full ${
                 i === active
                   ? "w-8 h-2 bg-black"

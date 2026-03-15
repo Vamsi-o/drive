@@ -60,8 +60,8 @@ html.lenis, html.lenis body {
     --sidebar-border: 0 0% 15%;
     --sidebar-ring: 0 0% 100%;
 
-    --font-heading: 'Roboto Condensed', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-heading: var(--font-roboto-condensed), 'Roboto Condensed', sans-serif;
+    --font-body: var(--font-inter), 'Inter', sans-serif;
 
     /* DTS Configurator Design Tokens */
     --dts-accent: #81D8D0;

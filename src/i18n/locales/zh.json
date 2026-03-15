@@ -80,6 +80,13 @@
     "articleNotFound": "文章未找到",
     "backToNews": "返回新闻"
   },
+  "blogs": {
+    "title": "博客",
+    "subtitle": "见解与故事",
+    "readMore": "阅读更多",
+    "articleNotFound": "文章未找到",
+    "backToBlogs": "返回博客"
+  },
   "dealerships": {
     "title": "经销商查询",
     "searchPlaceholder": "按城市或国家搜索..."

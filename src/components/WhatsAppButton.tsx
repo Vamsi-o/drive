@@ -1,8 +1,19 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const WhatsAppButton = () => {
+  const [isRtl, setIsRtl] = useState(false);
+
+  useEffect(() => {
+    const checkDir = () => setIsRtl(document.documentElement.dir === 'rtl');
+    checkDir();
+    const observer = new MutationObserver(checkDir);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <motion.a
       href="https://wa.me/message/3DYTH4POQLBFD1"
@@ -14,7 +25,9 @@ const WhatsAppButton = () => {
       transition={{ delay: 1.5, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-[0_4px_24px_rgba(37,211,102,0.4)] hover:shadow-[0_6px_32px_rgba(37,211,102,0.55)] transition-shadow duration-300"
+      className={`fixed bottom-6 z-50 flex items-center justify-center w-[60px] h-[60px] rounded-full shadow-[0_4px_24px_rgba(37,211,102,0.4)] hover:shadow-[0_6px_32px_rgba(37,211,102,0.55)] transition-all duration-300 ${
+        isRtl ? 'left-6' : 'right-6'
+      }`}
       style={{
         background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
       }}

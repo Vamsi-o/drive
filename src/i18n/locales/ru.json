@@ -92,6 +92,13 @@
     "articleNotFound": "Статья не найдена",
     "backToNews": "Назад к новостям"
   },
+  "blogs": {
+    "title": "Блог",
+    "subtitle": "Статьи и Истории",
+    "readMore": "Читать далее",
+    "articleNotFound": "Статья не найдена",
+    "backToBlogs": "Назад к блогу"
+  },
   "dealerships": {
     "title": "Поиск дилеров",
     "searchPlaceholder": "Поиск по городу или стране..."

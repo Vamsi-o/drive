@@ -46,6 +46,7 @@ export interface ConfiguratorModel {
   desc: string;
   image: string;
   activeColor: string;
+  logoImage?: string;
   stats: ModelStats;
   tabs: ConfigTab[];
   comingSoon?: boolean;
@@ -193,6 +194,7 @@ export const CONFIGURATOR_MODELS: ConfiguratorModel[] = [
     id: 'MODEL R',
     name: 'THE MODEL R',
     letter: 'R',
+    logoImage: '/logo-r.png',
     slug: 'model-r',
     desc: 'Refined performance. Designed for premium leisure and commercial use, compliant with CE standards for global operation.',
     image: modelRImg,
@@ -204,6 +206,7 @@ export const CONFIGURATOR_MODELS: ConfiguratorModel[] = [
     id: 'MODEL F',
     name: 'THE MODEL F',
     letter: 'F',
+    logoImage: '/logo-f.png',
     slug: 'model-f',
     desc: 'Pure power on water. A high-performance JetCar engineered for speed, control, and CE-compliant commercial use.',
     image: modelFImg,
