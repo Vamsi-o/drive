@@ -144,7 +144,7 @@ const ModelsSection = () => {
           </button>
 
           {/* Badge — fixed height so arrows don't shift */}
-          <div className="text-center flex flex-col items-center justify-center h-[60px] md:h-[80px] lg:h-[100px]">
+          <div className="text-center flex flex-col items-center justify-center h-[60px] md:h-[80px] lg:h-[100px] w-[200px] md:w-[250px] lg:w-[300px] flex-shrink-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`badge-${current.slug}`}
